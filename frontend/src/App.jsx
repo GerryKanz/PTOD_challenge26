@@ -1,19 +1,34 @@
-import {useStationFacilities} from './hooks/useStationData';
+import React from 'react';
+import StationMap from './StationMap';
+
+// Sample GeoJSON data for testing related purposes showing path outside Tokyo Station
+const sampleHokoNaviData = {
+    "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "has_stairs": 0, "name": "Accessible Path A" },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [139.7671, 35.6812],
+          [139.7680, 35.6820]
+        ]
+      }
+    }
+  ]
+};
 
 function App() {
-    const {data, isLoading, error} = useStationFacilities('odpt.Operator:JR-East');
-    if (isLoading) return <p>Loading station facilities...</p>;
-        if (error) return <p>Error: {error.message}</p>;
-
-        return (
-            <div style={{padding: '20px'}}>
-                <h1>Low-Burden Accessibility Data</h1>
-      <p>Raw ODPT response for JR-East facilities:</p>
-      {/* This <pre> tag formats the JSON so it's easy to read! */}
-      <pre style={{ background: '#f4f4f4', padding: '15px' }}>
-        {JSON.stringify(data, null, 2)}
-      </pre>
+  return (
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h1>HokoNavi Station Accessibility</h1>
+      <p>Visualizing step-free paths using Leaflet and GeoJSON.</p>
+      
+      {/* Pass the data into the map! */}
+      <StationMap geojsonData={sampleHokoNaviData} />
     </div>
-        );
-    }
+  );
+}
+
 export default App;
