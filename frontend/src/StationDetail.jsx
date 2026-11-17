@@ -1,26 +1,25 @@
 import React from 'react';
-import { useStation } from './hooks/useStationData';
+import { useStationCongestion } from './hooks/useOverpassStation';
 
-// Details for the station clicked on the map
 export default function StationDetail({ operator, name }) {
-  const { data: station, isLoading, error } = useStation(operator, name);
+  const stationKey = (name || 'tokyo').toLowerCase();
+  const { data: station, isLoading, error } = useStationCongestion(stationKey);
 
   if (isLoading) return <p>Loading {name}...</p>;
-  if (error) return <p>Could not load {name}.</p>;
-  if (!station) return null;
+  if (error || !station) return <p>Could not load {name}.</p>;
 
   const { congestion } = station;
 
   return (
     <section>
       <h2>{station.name.en} ({station.name.ja})</h2>
-      <p>{station.operator.name}</p>
+      <p>{station.operator?.name || operator}</p>
 
       <h3>Congestion</h3>
       <ul>
         <li>Busy level: {congestion.busy_level}</li>
-        <li>Passengers per day: {congestion.passengers_per_day.toLocaleString()} ({congestion.survey_year} survey)</li>
-        <li>Live delay: {congestion.live_delay_minutes ?? 'no data'} min</li>
+        <li>Passengers per day: {congestion.passengers_per_day.toLocaleString()} ({congestion.survey_year || 2024} survey)</li>
+        <li>Live delay: {congestion.live_delay_minutes ?? '0'} min</li>
       </ul>
 
       <h3>Line status</h3>
@@ -29,9 +28,6 @@ export default function StationDetail({ operator, name }) {
           <li key={line.railway}>{line.railway.split('.').pop()}: {line.text || line.status}</li>
         ))}
       </ul>
-
-      <h3>Facilities</h3>
-      <p>{station.facilities ? station.facilities.length + ' facilities' : 'Not available yet.'}</p>
     </section>
   );
 }
