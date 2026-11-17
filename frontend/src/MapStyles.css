@@ -1,6 +1,159 @@
-.leaflet-container {
-    /* Set dimensions to prevent the map from being too small or too large */
-    width: 100%;
-    height: 600px;
-    z-index: 1;
+.map-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #0f172a;
+}
+
+.smart-hub-card {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 94%;
+  max-width: 540px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(12px);
+  padding: 14px;
+  border-radius: 24px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.station-strip, .floor-strip {
+  display: flex;
+  flex-wrap: wrap; /* Wraps cleanly so no button is ever cut off on desktop! */
+  gap: 6px;
+}
+
+.station-pill, .floor-pill {
+  border: 2px solid transparent;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  background: #1e293b;
+  transition: all 0.2s ease;
+}
+
+.station-pill.active {
+  background: #3b82f6;
+  border-color: #93c5fd;
+}
+
+.floor-pill.active {
+  color: #0f172a;
+  transform: scale(1.05);
+}
+
+.zen-toggle-btn {
+  background: #1e293b;
+  color: white;
+  border: 1px solid #475569;
+  padding: 9px 14px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.zen-toggle-btn.active {
+  background: #06b6d4;
+  color: #0f172a;
+}
+
+.depth-ring-pin {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #10b981;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+.sonar-wrapper {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sonar-core {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  z-index: 2;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.sonar-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sonar-crowded .sonar-core { background: #dc2626; border: 2px solid #fca5a5; }
+.sonar-crowded .sonar-ring {
+  border: 3px solid #ef4444;
+  background: rgba(239, 68, 68, 0.25);
+  animation: sonarPulse 1s infinite ease-out;
+}
+
+.sonar-oasis .sonar-core { background: #10b981; border: 2px solid #a7f3d0; }
+.sonar-oasis .sonar-ring {
+  border: 3px solid #10b981;
+  background: rgba(16, 185, 129, 0.25);
+  animation: sonarPulse 3.5s infinite ease-out;
+}
+
+@keyframes sonarPulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(2.8); opacity: 0; }
+}
+
+/* Animated Light Navigation Stream */
+.trail-flow-2026 {
+  stroke-dasharray: 14 22;
+  animation: flowStream2026 0.85s linear infinite;
+}
+
+@keyframes flowStream2026 {
+  from { stroke-dashoffset: 36; }
+  to { stroke-dashoffset: 0; }
+}
+
+.you-are-here-puck {
+  background: radial-gradient(circle, #ffffff 35%, #3b82f6 40%, #1d4ed8 100%);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 18px #38bdf8, 0 0 32px rgba(59, 130, 246, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  color: #0f172a;
 }
